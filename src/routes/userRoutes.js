@@ -8,7 +8,7 @@ const userRoutes = Router();
 
 userRoutes.post('/signup-patient', validateSchema(userPatientSchema), userControllers.signup);
 userRoutes.post('/signup-doctor', validateSchema(userDoctorSchema), userControllers.signupDoctor);
-// userRoutes.post('/', userControllers.signin);
+userRoutes.post('/signin', userControllers.signin);
 
 export default userRoutes;
 

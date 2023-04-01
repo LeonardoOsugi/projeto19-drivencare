@@ -10,7 +10,7 @@ async function signup(req, res){
     }catch(err){
         return res.status(500).send(err.message);
     }
-}
+};
 
 async function signupDoctor(req, res){
     const {name, email, password, type, street, number, complement, postal_code,name_city, name_state, name_speci} = req.body;
@@ -21,9 +21,23 @@ async function signupDoctor(req, res){
         return res.status(500).send(err.message);
     }
 
+};
+
+async function signin(req, res){
+    const {email, password} = req.body;
+
+    try{
+        const token = await userServices.signin({email, password});
+
+        return res.send({token});
+    }catch(err){
+        return res.status(500).send(err.message);
+    }
+
 }
 
 export default {
     signup,
-    signupDoctor
+    signupDoctor,
+    signin
 }

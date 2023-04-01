@@ -27,10 +27,15 @@ async function createDoctor({name, email, password, type, street, number, comple
     await connectionDB.query(`INSERT INTO doctors_addresses (doctor_id, city_id, street, number, complement, postal_code) VALUES($1, $2, $3, $4, $5, $6)`, [doctorId.rows[0].id, cityId.rows[0].id, street, number, complement, postal_code]);
 
     await connectionDB.query(`INSERT INTO specialties (doctor_id, name) VALUES ($1, $2)`, [doctorId.rows[0].id, name_speci]);
-}
+};
+
+async function createSession({userId, token}){
+    await connectionDB.query(`INSERT INTO sessions (user_id, token) VALUES($1, $2)`,[userId, token]);
+};
 
 export default {
     findByEmail,
     createPatient,
-    createDoctor
+    createDoctor,
+    createSession
 };
