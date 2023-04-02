@@ -1,6 +1,6 @@
 import connectionDB from "../config/database.js";
 
-async function findByEmail(email){
+async function findByEmail({email}){
    return await connectionDB.query(`SELECT * FROM users WHERE email = $1 `,[email]);
 
 };
@@ -33,9 +33,19 @@ async function createSession({userId, token}){
     await connectionDB.query(`INSERT INTO sessions (user_id, token) VALUES($1, $2)`,[userId, token]);
 };
 
+async function findSessionByToken({token}){
+    return await connectionDB.query(`SELECT * FROM sessions WHERE token = $1`, [token]);
+}
+
+async function findById({id}){
+    return await connectionDB.query(`SELECT * FROM users WHERE id = $1 `,[id]);
+ };
+
 export default {
     findByEmail,
     createPatient,
     createDoctor,
-    createSession
+    createSession,
+    findSessionByToken,
+    findById
 };
