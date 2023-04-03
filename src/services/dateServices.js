@@ -7,6 +7,14 @@ async function createDate({date_disp, time_disp, doctor_id, type}){
     await dateRepositories.createDate({date_disp, time_disp, doctor_id});
 }
 
+async function querieDate(){
+    const {rows, rowCount} = await dateRepositories.querieDate();
+    if(!rowCount) throw new Error("Not Found");
+
+    return rows;
+}
+
 export default {
-    createDate
+    createDate,
+    querieDate
 }

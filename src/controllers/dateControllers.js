@@ -14,6 +14,18 @@ async function createDate(req, res){
     }
 }
 
+async function querieDate(req, res){
+
+    try{
+        const alldates = await dateServices.querieDate();
+        return res.json(alldates);
+    }catch(err){
+        return res.status(500).send(err.message);
+    }
+
+}
+
 export default {
-    createDate
+    createDate,
+    querieDate
 }

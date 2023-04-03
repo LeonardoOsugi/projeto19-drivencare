@@ -7,5 +7,6 @@ import { dateSchema } from "../schema/dateSchemas.js";
 const dateRoutes = Router();
 
 dateRoutes.post('/', authMiddleware.authValidation ,validateSchema(dateSchema) ,dateControllers.createDate);
+dateRoutes.get('/', authMiddleware.authValidation, dateControllers.querieDate);
 
 export default dateRoutes;
