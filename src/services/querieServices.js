@@ -53,11 +53,63 @@ async function consultQuerieDoctor({type, doctor_id}){
 
 };
 
+async function confirmQuirie({paramsId, type}){
+    if(type !== "doctor") throw new Error('user not a doctor');
+
+    const {rowCount} = await querieRepositories.findQuirieById({paramsId});
+
+    if(!rowCount)throw new Error('id not found');
+
+    await querieRepositories.confirmQuirie({paramsId});
+};
+
+async function cancelQuirie({paramsId, type}){
+    if(type !== "doctor") throw new Error('user not a doctor');
+
+    const {rowCount} = await querieRepositories.findQuirieById({paramsId});
+
+    if(!rowCount)throw new Error('id not found');
+
+    await querieRepositories.cancelQuirie({paramsId});
+};
+
+async function consultationsHeld({paramsId, type}){
+    if(type !== "doctor") throw new Error('user not a doctor');
+
+    const {rowCount} = await querieRepositories.findQuirieById({paramsId});
+
+    if(!rowCount)throw new Error('id not found');
+
+    await querieRepositories.consultationsHeld({paramsId});
+};
+
+async function consultationsHeldCancel({paramsId, type}){
+    if(type !== "doctor") throw new Error('user not a doctor');
+
+    const {rowCount} = await querieRepositories.findQuirieById({paramsId});
+
+    if(!rowCount)throw new Error('id not found');
+
+    await querieRepositories.consultationsHeldCancel({paramsId});
+};
+
+async function history(){
+    const {rows, rowCount} = await querieRepositories.history();
+    if(!rowCount) throw new Error("Not Found");
+
+    return rows;
+}
+
 export default {
     doctorFindName,
     doctorFindSpecialty,
     doctorFindLocation,
     insertQuery,
     consultQueriePacient,
-    consultQuerieDoctor
+    consultQuerieDoctor,
+    confirmQuirie,
+    cancelQuirie,
+    consultationsHeld,
+    consultationsHeldCancel,
+    history
 }

@@ -13,9 +13,9 @@ async function signup(req, res){
 };
 
 async function signupDoctor(req, res){
-    const {name, email, password, type, street, number, complement, postal_code,name_city, name_state, name_speci} = req.body;
+    const {name, email, password, type, street, number, complement, postal_code,name_city, name_state} = req.body;
     try{
-        await userServices.createDoctorUser({name, email, password, type, street, number, complement, postal_code, name_city, name_state, name_speci});
+        await userServices.createDoctorUser({name, email, password, type, street, number, complement, postal_code, name_city, name_state});
         return res.sendStatus(201);
     }catch(err){
         return res.status(500).send(err.message);

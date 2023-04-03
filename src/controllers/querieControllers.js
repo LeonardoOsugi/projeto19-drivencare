@@ -70,6 +70,68 @@ async function consultQuerieDoctor(req, res){
     }catch(err){
         return res.status(500).send(err.message);
     }
+};
+
+async function confirmQuirie(req, res){
+    const {id} = req.params;
+    const {type} = res.locals.user;
+    const paramsId = Number(id);
+
+    try{
+        await querieServices.confirmQuirie({paramsId, type});
+        return res.sendStatus(200)
+    }catch(err){
+        return res.status(500).send(err.message);
+    }
+};
+
+async function cancelQuirie(req, res){
+    const {id} = req.params;
+    const {type} = res.locals.user;
+    const paramsId = Number(id);
+
+    try{
+        await querieServices.cancelQuirie({paramsId, type});
+        return res.sendStatus(200)
+    }catch(err){
+        return res.status(500).send(err.message);
+    }
+};
+
+async function consultationsHeld(req,res){
+    const {id} = req.params;
+    const {type} = res.locals.user;
+    const paramsId = Number(id);
+
+    try{
+        await querieServices.consultationsHeld({paramsId, type});
+        return res.sendStatus(200)
+    }catch(err){
+        return res.status(500).send(err.message);
+    }
+};
+
+async function consultationsHeldCancel(req, res){
+    const {id} = req.params;
+    const {type} = res.locals.user;
+    const paramsId = Number(id);
+
+    try{
+        await querieServices.consultationsHeldCancel({paramsId, type});
+        return res.sendStatus(200)
+    }catch(err){
+        return res.status(500).send(err.message);
+    }
+};
+
+async function history(req, res){
+    try{
+        const consults = await querieServices.history();
+
+        return res.json(consults);
+    }catch(err){
+        return res.status(500).send(err.message);
+    }
 }
 
 export default{
@@ -78,5 +140,10 @@ export default{
     doctorFindLocation,
     insertQuery,
     consultQueriePacient,
-    consultQuerieDoctor
+    consultQuerieDoctor,
+    confirmQuirie,
+    cancelQuirie,
+    consultationsHeld,
+    consultationsHeldCancel,
+    history
 }

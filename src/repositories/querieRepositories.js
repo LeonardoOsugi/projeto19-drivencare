@@ -73,6 +73,38 @@ async function consultQuerieDoctor({doctor_id}){
     JOIN users u
         ON u.id = q.patient_id
     WHERE q.doctor_id = $1`, [doctor_id]);
+};
+
+async function confirmQuirie({paramsId}){
+
+    await connectionDB.query(`UPDATE queries SET confirm_querie = true WHERE id = $1`,[paramsId]);
+};
+
+async function findQuirieById({paramsId}){
+     return  await connectionDB.query(`SELECT * FROM queries WHERE id = $1`,[paramsId])
+};
+
+async function cancelQuirie({paramsId}){
+    await connectionDB.query(`UPDATE queries SET confirm_querie = false WHERE id = $1`,[paramsId]);
+};
+
+async function consultationsHeld({paramsId}){
+    await connectionDB.query(`UPDATE queries SET  consultation_held = true WHERE id = $1`,[paramsId]);
+};
+
+async function consultationsHeldCancel({paramsId}){
+    await connectionDB.query(`UPDATE queries SET  consultation_held = false WHERE id = $1`,[paramsId]);
+};
+
+async function history(){
+    return await connectionDB.query(`
+    SELECT d.name AS doctor, p.name AS patient, q.date, q.time, q.confirm_querie, q.consultation_held 
+    FROM queries q
+    JOIN users d
+        ON d.id = q.doctor_id
+    JOIN users p
+        ON p.id = q.patient_id
+    WHERE consultation_held = true`)
 }
 
 export default {
@@ -82,5 +114,11 @@ export default {
     findDates,
     insertQuery,
     consultQueriePacient,
-    consultQuerieDoctor
+    consultQuerieDoctor,
+    confirmQuirie,
+    findQuirieById,
+    cancelQuirie,
+    consultationsHeld,
+    consultationsHeldCancel,
+    history
 }

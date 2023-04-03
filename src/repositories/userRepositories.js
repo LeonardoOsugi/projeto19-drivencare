@@ -10,7 +10,7 @@ async function createPatient({name, email, password, type}){
 
 };
 
-async function createDoctor({name, email, password, type, street, number, complement, postal_code, name_city, name_state, name_speci}){
+async function createDoctor({name, email, password, type, street, number, complement, postal_code, name_city, name_state}){
 
     await connectionDB.query(`INSERT INTO users (name, email, password, confirm_password, type) VALUES ($1, $2, $3, $4, $5)`, [name, email, password, password, type]);
 
@@ -25,8 +25,6 @@ async function createDoctor({name, email, password, type, street, number, comple
     const cityId = await connectionDB.query(`SELECT * FROM cities WHERE name = $1`, [name_city]);
 
     await connectionDB.query(`INSERT INTO doctors_addresses (doctor_id, city_id, street, number, complement, postal_code) VALUES($1, $2, $3, $4, $5, $6)`, [doctorId.rows[0].id, cityId.rows[0].id, street, number, complement, postal_code]);
-
-    await connectionDB.query(`INSERT INTO specialties (doctor_id, name) VALUES ($1, $2)`, [doctorId.rows[0].id, name_speci]);
 };
 
 async function createSession({userId, token}){

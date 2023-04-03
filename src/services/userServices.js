@@ -12,7 +12,7 @@ async function createPatientUser({name, email, password, type}){
     await userRepositories.createPatient({name, email, password: hashPass, type});
 }
 
-async function createDoctorUser({name, email, password, type, street, number, complement, postal_code,name_city, name_state, name_speci}){
+async function createDoctorUser({name, email, password, type, street, number, complement, postal_code,name_city, name_state}){
 
     const {rowCount} = await userRepositories.findByEmail(email);
 
@@ -20,7 +20,7 @@ async function createDoctorUser({name, email, password, type, street, number, co
 
     const hashPass = await bcrypt.hash(password, 10);
 
-    await userRepositories.createDoctor({name, email, password: hashPass, type, street, number, complement, postal_code,name_city, name_state, name_speci})
+    await userRepositories.createDoctor({name, email, password: hashPass, type, street, number, complement, postal_code,name_city, name_state})
 };
 
 async function signin({email, password}){
