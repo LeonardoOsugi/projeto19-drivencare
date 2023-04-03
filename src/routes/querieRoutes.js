@@ -14,4 +14,8 @@ querieRoutes.get("/location/:postal/:city?/:state?", authMiddleware.authValidati
 
 querieRoutes.post("/insert-query", authMiddleware.authValidation, validateSchema(querieSchema),querieControllers.insertQuery);
 
+querieRoutes.get("/consult-quirie-pacient", authMiddleware.authValidation, querieControllers.consultQueriePacient);
+
+querieRoutes.get("/consult-quirie-doctor", authMiddleware.authValidation, querieControllers.consultQuerieDoctor);
+
 export default querieRoutes;

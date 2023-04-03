@@ -45,9 +45,38 @@ async function insertQuery(req, res){
     }
 };
 
+async function consultQueriePacient(req, res){
+    const {id} = res.locals.user;
+    const {type} = res.locals.user;
+
+    try{
+        const patient = await querieServices.consultQueriePacient({type, patient_id: id});
+
+        return res.json(patient);
+
+    }catch(err){
+        return res.status(500).send(err.message);
+    }
+};
+
+async function consultQuerieDoctor(req, res){
+    const {id} = res.locals.user;
+    const {type} = res.locals.user;
+
+    try{
+        const doctor = await querieServices.consultQuerieDoctor({type, doctor_id: id});
+
+        return res.json(doctor);
+    }catch(err){
+        return res.status(500).send(err.message);
+    }
+}
+
 export default{
     doctorFindName,
     doctorFindSpecialty,
     doctorFindLocation,
-    insertQuery
+    insertQuery,
+    consultQueriePacient,
+    consultQuerieDoctor
 }

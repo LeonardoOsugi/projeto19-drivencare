@@ -53,10 +53,34 @@ async function insertQuery({patient_id, date, time, doctor_id}){
     await connectionDB.query(`INSERT INTO queries (patient_id, doctor_id, date, time) VALUES($1, $2, $3, $4)`,[patient_id, doctor_id, date, time]);
 };
 
+async function consultQueriePacient({patient_id}){
+    return await connectionDB.query(`
+    SELECT q.date, q.time, u.name AS doctor_name, s.name AS specialty 
+    FROM queries q 
+    JOIN users u 
+        ON u.id = q.doctor_id
+    JOIN specialties s
+        ON s.doctor_id = u.id
+    WHERE q.patient_id = $1`,[patient_id]);
+};
+
+async function consultQuerieDoctor({doctor_id}){
+    return await connectionDB.query(`
+    SELECT q.date, q.time, u.name AS patient_name, s.name AS specialty
+    FROM queries q
+    JOIN specialties s
+        ON s.doctor_id = q.doctor_id
+    JOIN users u
+        ON u.id = q.patient_id
+    WHERE q.doctor_id = $1`, [doctor_id]);
+}
+
 export default {
     doctorFindName,
     doctorFindSpecialty,
     doctorFindLocation,
     findDates,
-    insertQuery
+    insertQuery,
+    consultQueriePacient,
+    consultQuerieDoctor
 }
