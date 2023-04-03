@@ -13,9 +13,6 @@ async function doctorFindSpecialty({specialty}){
 };
 
 async function doctorFindLocation({postal, city, state}){
-    console.log(postal);
-    console.log(city);
-    console.log(state);
     if(!city && !state){
         return await connectionDB.query(`
         SELECT u.id ,u.name, u.email, u.type, a.street, a.number, a.complement, a.postal_code  
@@ -46,10 +43,20 @@ async function doctorFindLocation({postal, city, state}){
         WHERE s.name = $1 AND c.name = $2 AND  a.postal_code = $3 AND u.type = $4
         `,[state, city, postal, "doctor"]);
     }
-}
+};
+
+async function findDates({date, time}){
+     return await connectionDB.query(`SELECT * FROM doctors_dates_schedules WHERE date_disp = $1 AND time_disp = $2`,[date,time]);
+};
+
+async function insertQuery({patient_id, date, time, doctor_id}){
+    await connectionDB.query(`INSERT INTO queries (patient_id, doctor_id, date, time) VALUES($1, $2, $3, $4)`,[patient_id, doctor_id, date, time]);
+};
 
 export default {
     doctorFindName,
     doctorFindSpecialty,
-    doctorFindLocation
+    doctorFindLocation,
+    findDates,
+    insertQuery
 }

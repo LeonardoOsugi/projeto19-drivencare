@@ -29,11 +29,25 @@ async function doctorFindLocation(req, res){
         return res.json(doctor);
     }catch(err){
         return res.status(500).send(err.massage);
-    }
-
+    };
 }
+
+async function insertQuery(req, res){
+    const {id} = res.locals.user;
+    const {type} = res.locals.user;
+    const {date, time} = req.body;
+
+    try{
+        await querieServices.insertQuery({patient_id: id, type, date, time});
+        return res.sendStatus(201);
+    }catch(err){
+        return res.status(500).send(err.message);
+    }
+};
+
 export default{
     doctorFindName,
     doctorFindSpecialty,
-    doctorFindLocation
+    doctorFindLocation,
+    insertQuery
 }

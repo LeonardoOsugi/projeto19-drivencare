@@ -21,8 +21,20 @@ async function doctorFindLocation({postal, city, state}){
     return rows;
 };
 
+async function insertQuery({patient_id, type, date, time}){
+
+    if(type !== "patient") throw new Error('user not a patient');
+
+    const {rows: [user], rowCount} = await querieRepositories.findDates({date, time})
+
+    if(!rowCount)throw new Error('Date or Time not Found');
+
+    await querieRepositories.insertQuery({patient_id, date, time, doctor_id: user.doctor_id});
+}
+
 export default {
     doctorFindName,
     doctorFindSpecialty,
-    doctorFindLocation
+    doctorFindLocation,
+    insertQuery
 }
